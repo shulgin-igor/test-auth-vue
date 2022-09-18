@@ -32,8 +32,10 @@ jobs:
           command: |
             npx wait-on http://localhost:8080
             npm run test:e2e:ci
+      - store_artifacts:
+          path: /home/circleci/project/cypress/screenshots
       - store_test_results:
-          path: /home/circleci/project/integration/results
+          path: /home/circleci/project/cypress/results
 
 workflows:
   version: 2

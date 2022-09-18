@@ -1,7 +1,11 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
-  e2e: {
-    video: false,
+  video: false,
+  reporterEnabled: "spec, mocha-junit-reporter",
+  screenshotsFolder: 'screenshots',
+  mochaJunitReporterReporterOptions: {
+    "mochaFile": "results/results.[hash].xml"
   },
+  e2e: {},
 });
