@@ -23,7 +23,7 @@ jobs:
     working_directory: /home/circleci/project
     steps:
       - checkout
-      - run: npm install --only=dev
+      - run: npm install
       - run:
           command: npm run serve:mocked
           background: true
@@ -34,8 +34,6 @@ jobs:
             npm run test:e2e:ci
       - store_artifacts:
           path: /home/circleci/project/cypress/screenshots
-      - store_test_results:
-          path: /home/circleci/project/cypress/results
 
 workflows:
   version: 2

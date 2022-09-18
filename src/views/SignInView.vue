@@ -16,7 +16,7 @@
         >
           <v-text-field
               v-model="email"
-              :rules="emailRules"
+              :rules="validation.email"
               label="E-mail"
               data-cy="email-field"
               required
@@ -24,7 +24,7 @@
 
           <v-text-field
               v-model="password"
-              :rules="passwordRules"
+              :rules="validation.password"
               :type="showPassword ? 'text' : 'password'"
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               label="Password"
@@ -52,6 +52,7 @@
 
 <script>
 import {mapState} from "vuex";
+import {Validators, validationGroup} from "@/util/validation"
 
 export default {
   name: 'SignIn',
@@ -60,15 +61,11 @@ export default {
     valid: false,
     showPassword: false,
     email: '',
-    emailRules: [
-      v => !!v || 'E-mail is required',
-      v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-    ],
     password: '',
-    passwordRules: [
-      v => !!v || 'Password is required',
-      v => v.length >= 5 || 'Password should contain at least 5 characters'
-    ],
+    validation: {
+      email: validationGroup('Email', Validators.required, Validators.email),
+      password: validationGroup('Password', Validators.required, Validators.minLength(5))
+    },
   }),
   computed: mapState({
     authError: state => state.auth.authError,
