@@ -1,7 +1,6 @@
 export const signIn = (email, password) => {
-    return fetch({
+    return fetch('/auth', {
         method: 'POST',
-        url: '/auth',
-        body: {email, password},
-    });
+        body: JSON.stringify({email, password}),
+    }).then((response) => response.json());
 }
