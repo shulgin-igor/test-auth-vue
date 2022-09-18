@@ -10,6 +10,11 @@ npm install
 npm run serve
 ```
 
+### Run dev server with mocks
+```
+npm run serve:mocked
+```
+
 ### Compiles and minifies for production
 ```
 npm run build
