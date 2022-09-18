@@ -2,14 +2,21 @@
   <v-container class="fill-height">
     <v-row class="align-center justify-center">
       <v-col cols="5">
+        <v-alert
+            type="error"
+            dismissible
+            v-if="authError"
+        >Invalid credentials</v-alert>
         <v-form
             ref="form"
             v-model="valid"
+            data-cy="auth-form"
         >
           <v-text-field
               v-model="email"
               :rules="emailRules"
               label="E-mail"
+              data-cy="email-field"
               required
           ></v-text-field>
 
@@ -18,6 +25,7 @@
               :rules="passwordRules"
               label="Password"
               type="password"
+              data-cy="password-field"
               required
           ></v-text-field>
 
@@ -26,6 +34,7 @@
             <v-btn
                 :disabled="!valid"
                 color="primary"
+                data-cy="submit-button"
                 @click="auth"
             >
               Sign In
@@ -38,6 +47,8 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
   name: 'SignIn',
 
@@ -51,7 +62,11 @@ export default {
     password: '',
     passwordRules: [
       v => !!v || 'Password is required',
+      v => v.length >= 5 || 'Password should contain at least 5 characters'
     ],
+  }),
+  computed: mapState({
+    authError: state => state.auth.authError,
   }),
   methods: {
     auth() {

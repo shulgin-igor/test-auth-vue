@@ -1,7 +1,9 @@
 import {signIn} from "@/api/auth";
+import {ServerError} from "@/errors/ServerError";
 
 const state = () => ({
     identity: null,
+    authError: false,
 });
 
 const getters = {
@@ -12,12 +14,16 @@ const getters = {
 
 const actions = {
     async signIn({commit}, payload) {
+        commit('setAuthError', false);
+
         try {
             const {email, password} = payload;
             const {user} = await signIn(email, password);
-            commit('setIdentity', user)
+            commit('setIdentity', user);
         } catch (e) {
-            console.log('error', e)
+            if (e instanceof ServerError && e.code === 401) {
+                commit('setAuthError', true);
+            }
         }
     }
 };
@@ -25,6 +31,9 @@ const actions = {
 const mutations = {
     setIdentity(state, user) {
         state.identity = user;
+    },
+    setAuthError(state, error) {
+        state.authError = error;
     }
 };
 
