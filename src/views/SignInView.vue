@@ -12,7 +12,7 @@
             ref="form"
             v-model="valid"
             data-cy="auth-form"
-            @submit="auth"
+            @submit.prevent="auth"
         >
           <v-text-field
               v-model="email"
@@ -74,8 +74,7 @@ export default {
     authError: state => state.auth.authError,
   }),
   methods: {
-    auth(e) {
-      e.preventDefault();
+    auth() {
       this.$store.dispatch('auth/signIn', {email: this.email, password: this.password});
     }
   },

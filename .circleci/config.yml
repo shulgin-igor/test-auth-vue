@@ -31,7 +31,7 @@ jobs:
       - run:
           command: |
             npx wait-on http://localhost:8080
-            npm run test:e2e:ci
+            npm run test:e2e -- --headless
       - store_test_results:
           path: /home/circleci/project/integration/results
 
