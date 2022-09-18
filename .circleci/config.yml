@@ -16,12 +16,14 @@ jobs:
     <<: *container_config
     steps:
       - checkout
+      - run: npm install --only=dev
       - run: npm run lint
   test_e2e:
     <<: *container_config
     working_directory: /home/circleci/project
     steps:
       - checkout
+      - run: npm install --only=dev
       - run:
           command: npm run serve:mocked
           background: true
