@@ -15,6 +15,7 @@ jobs:
   lint:
     <<: *container_config
     steps:
+      - checkout
       - run: npm run lint
   test_e2e:
     <<: *container_config
@@ -27,7 +28,7 @@ jobs:
       - run: npx cypress install
       - run:
           command: |
-            npx wait-in http://localhost:8080
+            npx wait-on http://localhost:8080 -t 10000
             npm run test:e2e:ci
       - store_test_results:
           path: /home/circleci/project/integration/results
