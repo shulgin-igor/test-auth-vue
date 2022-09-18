@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
-    <h1>Welcome to test app</h1>
+  <div class="d-flex fill-height justify-center">
+    <h1>Home page works</h1>
   </div>
 </template>

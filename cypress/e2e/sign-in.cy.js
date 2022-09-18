@@ -41,7 +41,24 @@ describe('LoginPage', () => {
         .parents(".v-input__control")
         .find(".v-messages__message")
         .should('not.be.visible');
-  })
+  });
+
+  it('should toggle password field type on eye button click', () => {
+    cy.get('[data-cy=password-field]')
+        .parents(".v-input__control")
+        .find("button")
+        .click();
+    cy.get('[data-cy=password-field]')
+        .invoke('attr', 'type')
+        .should('eq','text');
+    cy.get('[data-cy=password-field]')
+        .parents(".v-input__control")
+        .find("button")
+        .click();
+    cy.get('[data-cy=password-field]')
+        .invoke('attr', 'type')
+        .should('eq','password');
+  });
 
   it('should display Sign In button enabled when the form is valid', () => {
     cy.get('[data-cy=email-field]').type('test@test.com');

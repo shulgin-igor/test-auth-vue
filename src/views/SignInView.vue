@@ -12,6 +12,7 @@
             ref="form"
             v-model="valid"
             data-cy="auth-form"
+            @submit="auth"
         >
           <v-text-field
               v-model="email"
@@ -24,19 +25,21 @@
           <v-text-field
               v-model="password"
               :rules="passwordRules"
+              :type="showPassword ? 'text' : 'password'"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               label="Password"
-              type="password"
               data-cy="password-field"
               required
+              @click:append="showPassword = !showPassword"
           ></v-text-field>
 
           <div class="d-flex justify-space-between align-center">
             <a>Forgot password?</a>
             <v-btn
                 :disabled="!valid"
+                type="submit"
                 color="primary"
                 data-cy="submit-button"
-                @click="auth"
             >
               Sign In
             </v-btn>
@@ -55,6 +58,7 @@ export default {
 
   data: () => ({
     valid: false,
+    showPassword: false,
     email: '',
     emailRules: [
       v => !!v || 'E-mail is required',
@@ -70,7 +74,8 @@ export default {
     authError: state => state.auth.authError,
   }),
   methods: {
-    auth() {
+    auth(e) {
+      e.preventDefault();
       this.$store.dispatch('auth/signIn', {email: this.email, password: this.password});
     }
   },
