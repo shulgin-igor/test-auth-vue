@@ -1,0 +1,34 @@
+version: 2.1
+
+jobs:
+  build:
+    - checkout
+    - run: npm ci
+    - run: npm run build -- --mode mock
+  lint:
+    - run: npm run lint
+  test_e2e:
+    - checkout
+    - run:
+        command: npm run serve:mocked
+        background: true
+    - run: npx cypress install
+    - run:
+        command: |
+          npx wait-in http://localhost:8080
+          npm run test:e2e
+    - store_test_results:
+      path: /home/circleci/project/integration/results
+
+workflows:
+  version: 2
+
+  build_test_deploy:
+    jobs:
+      - build
+      - lint:
+          requires:
+            - build
+      - test_e2e:
+          requires:
+            - build
