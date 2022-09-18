@@ -50,13 +50,18 @@ describe('LoginPage', () => {
   })
 
   it('should display error message when trying to sign in with invalid credentials', () => {
-    cy.intercept('POST', '/auth').as('auth');
     cy.get('[data-cy=email-field]').type('test1@test.com');
     cy.get('[data-cy=password-field]').type('test123456');
     cy.get('[data-cy=submit-button]').click();
 
-    cy.wait('@auth');
-
     cy.get('[data-cy=invalid-creds]').should('be.visible');
+  })
+
+  it('should redirect to home screen when credentials are valid', () => {
+    cy.get('[data-cy=email-field]').type('test@test.com');
+    cy.get('[data-cy=password-field]').type('test123');
+    cy.get('[data-cy=submit-button]').click();
+
+    cy.url().should('equal', 'http://localhost:8080/')
   })
 })

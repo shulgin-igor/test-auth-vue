@@ -6,6 +6,7 @@
             type="error"
             dismissible
             v-if="authError"
+            data-cy="invalid-creds"
         >Invalid credentials</v-alert>
         <v-form
             ref="form"

@@ -1,5 +1,6 @@
 import {signIn} from "@/api/auth";
 import {ServerError} from "@/errors/ServerError";
+import router from "@/router";
 
 const state = () => ({
     identity: null,
@@ -20,6 +21,7 @@ const actions = {
             const {email, password} = payload;
             const {user} = await signIn(email, password);
             commit('setIdentity', user);
+            router.push('/');
         } catch (e) {
             if (e instanceof ServerError && e.code === 401) {
                 commit('setAuthError', true);
