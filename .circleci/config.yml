@@ -30,7 +30,7 @@ jobs:
       - run: npx cypress install
       - run:
           command: |
-            npx wait-on http://localhost:8080 -t 10000
+            npx wait-on http://localhost:8080
             npm run test:e2e:ci
       - store_test_results:
           path: /home/circleci/project/integration/results
